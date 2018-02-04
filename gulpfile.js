@@ -12,6 +12,7 @@ const gulp = require('gulp'),
   nano = require('gulp-cssnano'),
   notify = require('gulp-notify'),
   browserSync = require('browser-sync'),
+  image = require('gulp-image'),
   runSequence = require('run-sequence');
 
 gulp.task('css', () =>{
@@ -42,6 +43,7 @@ gulp.task('css', () =>{
       message: 'Your CSS is ready ♡'
     }));
 });
+
 gulp.task('browser-sync', () =>{
   browserSync({
     server: {
@@ -49,6 +51,14 @@ gulp.task('browser-sync', () =>{
     }
   });
 });
+
+gulp.task('image', function () {
+  gulp.src('./docs/assets-source/**/*')
+    .pipe(image())
+    .pipe(gulp.dest('./docs/assets/'));
+});
+
+
 gulp.task('watch', () =>{
   gulp.watch('nakDS-src/**/*.css', ['css']);
 
