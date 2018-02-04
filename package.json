@@ -22,7 +22,8 @@
     "postcss-import": "^8.1.0",
     "postcss-media-variables": "^2.0.0",
     "postcss-mixins": "^4.0.1",
-    "postcss-nested": "^1.0.0"
+    "postcss-nested": "^1.0.0",
+    "vanilla-lazyload": "^8.6.0"
   },
   "repository": {
     "type": "git",
