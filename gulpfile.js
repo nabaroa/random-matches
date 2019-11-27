@@ -1,67 +1,33 @@
-// nakPostCSS gulpfile by @nabaroa
+const gulp = require("gulp");
+const postcss = require("gulp-postcss");
+const autoprefixer = require("autoprefixer");
+const postcssPresetEnv = require("postcss-preset-env");
+const cssImport = require("postcss-import");
+const cssnano = require("cssnano");
+const notify = require("gulp-notify");
+const rename = require("gulp-rename");
 
-const gulp = require('gulp'),
-  postcss = require('gulp-postcss'),
-  autoprefixer = require('autoprefixer'),
-  cssimport = require('postcss-import'),
-  customproperties = require('postcss-custom-properties'),
-  apply = require('postcss-apply'),
-  mixins = require('postcss-mixins'),
-  nested = require('postcss-nested'),
-  customMedia = require("postcss-custom-media")
-  nano = require('gulp-cssnano'),
-  notify = require('gulp-notify'),
-  browserSync = require('browser-sync'),
-  image = require('gulp-image'),
-  runSequence = require('run-sequence');
+function css() {
+  return gulp
+    .src("./src/style.css")
+    .pipe(postcss([cssImport(), postcssPresetEnv(), autoprefixer()]))
+    .pipe(gulp.dest("./docs/css/"))
+    .pipe(postcss([cssnano()]))
+    .pipe(rename({ suffix: ".min" }))
+    .pipe(gulp.dest("./docs/css/"))
+    .pipe(
+      notify({
+        message: "Your CSS is ready ♡"
+      })
+    );
+}
 
-gulp.task('css', () =>{
-  const processors = [
-    cssimport,
-    autoprefixer,
-    customproperties,
-    apply,
-    mixins,
-    nested,
-    customMedia
-  ];
-  const configNano = {
-    autoprefixer: {
-      browsers: 'last 2 versions'
-    },
-    discardComments: {
-      removeAll: true
-    },
-    safe: true
-  };
-  return gulp.src('./nakDS-src/*.css')
-    .pipe(postcss(processors))
-    .pipe(gulp.dest('./dist'))
-    .pipe(nano(configNano))
-    .pipe(gulp.dest('./docs/css'))
-    .pipe(notify({
-      message: 'Your CSS is ready ♡'
-    }));
-});
+function watch() {
+  gulp.watch("./src/css/**/*.css", css);
+}
 
-gulp.task('browser-sync', () =>{
-  browserSync({
-    server: {
-      baseDir: './docs/'
-    }
-  });
-});
+const build = gulp.series(css, watch);
 
-gulp.task('image', function () {
-  gulp.src('./docs/assets-source/**/*')
-    .pipe(image())
-    .pipe(gulp.dest('./docs/assets/'));
-});
-
-
-gulp.task('watch', () =>{
-  gulp.watch('nakDS-src/**/*.css', ['css']);
-
-});
-
-gulp.task('default', ['css', 'browser-sync', 'watch']);
+exports.css = css;
+exports.watch = watch;
+exports.default = build;
