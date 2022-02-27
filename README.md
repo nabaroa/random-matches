@@ -1,4 +1,5 @@
 # randomMatches
+
 Image compilation just for fun.
 
-![Random Matches](https://github.com/nabaroa/randomMatches/blob/master/docs/assets/cover.jpg)
+![Random Matches](https://raw.githubusercontent.com/nabaroa/random-matches/main/docs/assets/cover.jpg)

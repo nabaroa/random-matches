@@ -3,3 +3,4 @@
 - Use native lazy loading
 - Test performance
 - Improve compilation removing gulp
+- Fix readme
